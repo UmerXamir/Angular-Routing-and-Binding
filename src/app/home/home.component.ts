@@ -17,10 +17,12 @@ export class HomeComponent {
   trendingMovies: any;
   theatreMovies: any;
   popularMovies: any;
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(private router: Router,private http: HttpClient, private auth: AuthService) {}
 
   ngOnInit(): void {
     this.getTrendingMovies();
+    this.getPopularMovies();
+    this.getTheatreMovies();
   }
   getTrendingMovies() {
     this.http
@@ -33,7 +35,7 @@ export class HomeComponent {
 
   getTheatreMovies() {
     this.http
-      .get('http://localhost:4200/assets/data/theatre-movies.json')
+      .get('http://localhost:4200/assets/data/theatreMovies.json')
       .subscribe((movies) => {
         this.theatreMovies = movies;
       });
@@ -41,9 +43,13 @@ export class HomeComponent {
 
   getPopularMovies() {
     this.http
-      .get('http://localhost:4200/assets/data/popular-movies.json')
+      .get('http://localhost:4200/assets/data/popularMovies.json')
       .subscribe((movies) => {
         this.popularMovies = movies;
       });
+  }
+
+  goToMovie(type: string,id: string) {
+    this.router.navigate(['movie',type,id]);
   }
 }
